@@ -1,9 +1,10 @@
 package arhs.cube.robotshop.core;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * The Robot entity
@@ -14,11 +15,12 @@ import javax.persistence.Id;
 public class Robot {
 
     @Id
+    @GeneratedValue
     private Long id;
 
-    @Column
     private String name;
-    private RobotType type;
+    private RobotModel model;
+    private Integer price;
 
     public Long getId() {
         return id;
@@ -36,11 +38,29 @@ public class Robot {
         this.name = name;
     }
 
-    public RobotType getType() {
-        return type;
+    public RobotModel getModel() {
+        return model;
     }
 
-    public void setType(final RobotType type) {
-        this.type = type;
+    public void setModel(final RobotModel model) {
+        this.model = model;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(final Integer price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("name", name)
+                .append("model", model)
+                .append("price", price)
+                .toString();
     }
 }

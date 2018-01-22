@@ -1,9 +1,7 @@
 package arhs.cube.robotshop.repositories;
 
-import java.util.List;
-
 import arhs.cube.robotshop.core.Robot;
-import arhs.cube.robotshop.core.RobotType;
+import arhs.cube.robotshop.core.RobotModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,10 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface RobotRepository extends JpaRepository<Robot, Long> {
 
-
-    List<Robot> findAllByType(RobotType type);
-
-    Page<Robot> findAllByType(RobotType type, Pageable pageable);
+    Page<Robot> findAllByModel(RobotModel model, Pageable pageable);
 
     Robot findByNameContaining(String name);
 

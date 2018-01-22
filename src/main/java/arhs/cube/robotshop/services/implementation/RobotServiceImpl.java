@@ -5,7 +5,7 @@ import javax.inject.Inject;
 
 import arhs.cube.robotshop.common.exception.ApplicationException;
 import arhs.cube.robotshop.core.Robot;
-import arhs.cube.robotshop.core.RobotType;
+import arhs.cube.robotshop.core.RobotModel;
 import arhs.cube.robotshop.repositories.RobotRepository;
 import arhs.cube.robotshop.services.RobotService;
 import org.apache.commons.lang3.Validate;
@@ -14,14 +14,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author bollenma
  */
 @Service
+@Transactional
 public class RobotServiceImpl implements RobotService {
 
-    private Logger logger = LoggerFactory.getLogger(RobotServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(RobotServiceImpl.class);
 
     @Inject
     private RobotRepository robotRepository;
@@ -50,16 +52,25 @@ public class RobotServiceImpl implements RobotService {
 
         logger.info("Robot retrieved [{}]", ret);
 
-        return null;
+        return ret;
     }
 
     @Override
     public Robot update(final Robot robot) {
         Validate.notNull(robot);
 
-        if (robot.getId() == null) {
+        // Cannot update a robot if there is no id
+        final Long id = robot.getId();
+        if (id == null) {
             throw new ApplicationException("Robot to be updated has no id")
                     .addContextValue("robot", robot);
+        }
+
+        // Cannot update a robot if it doesn't already exists
+        final Robot robotToUpdate = this.retrieve(id);
+        if (robotToUpdate == null) {
+            throw new ApplicationException("Robot with given id doesn't exist")
+                    .addContextValue("id", id);
         }
 
         final Robot ret = robotRepository.save(robot);
@@ -67,13 +78,6 @@ public class RobotServiceImpl implements RobotService {
         logger.info("Robot updated [{}]", robot);
 
         return ret;
-    }
-
-    @Override
-    public void delete(final Robot robot) {
-        Validate.notNull(robot);
-
-        delete(robot.getId());
     }
 
     @Override
@@ -86,49 +90,44 @@ public class RobotServiceImpl implements RobotService {
     }
 
     @Override
-    public Collection<Robot> retrieveAll() {
+    public void delete(final Collection<Long> ids) {
+        Validate.notNull(ids);
 
-        final Collection<Robot> ret = robotRepository.findAll();
+        ids.forEach(this::delete);
 
-        logger.info("All robots retrieved. Total [{}]", ret.size());
-        return ret;
+        logger.info("All robots deleted [{}]", ids);
     }
 
     @Override
-    public Collection<Robot> retrieveAllByType(final RobotType type) {
-        Validate.notNull(type);
-
-        final Collection<Robot> ret = robotRepository.findAllByType(type);
-
-        logger.info("All robots retrieved for type [{}]. Total [{}]", type, ret.size());
-        return ret;
-    }
-
-    @Override
-    public Page<Robot> retrieveAllPaginated(final Pageable pageable) {
+    public Page<Robot> retrieveAll(final Pageable pageable) {
         Validate.notNull(pageable);
 
         final Page<Robot> ret = robotRepository.findAll(pageable);
 
-        logger.info("All robots retrieved, paginated. Total [{}], page [{}], size [{}]",
-                ret.getTotalElements(), pageable.getPageNumber(), pageable.getPageSize());
+        logger.info("Retrieve page [{}/{}] with robots. Total [{}]",
+                pageable.getPageNumber() + 1, ret.getTotalPages(), ret.getTotalElements());
 
         return ret;
     }
 
     @Override
-    public Page<Robot> retrieveAllByTypePaginated(final RobotType type, final Pageable pageable) {
-        final Page<Robot> ret = robotRepository.findAllByType(type, pageable);
-
-        logger.info("All robots retrieved for type, paginated. Total [{}], page [{}], size [{}]",
-                ret.getTotalElements(), pageable.getPageNumber(), pageable.getPageSize());
-
-        return ret;
-    }
-
-    @Override
-    public Page<Robot> searchPaginated(final String search, final Pageable pageable) {
+    public Page<Robot> retrieveAllByModel(final RobotModel model, final Pageable pageable) {
+        Validate.notNull(model);
         Validate.notNull(pageable);
+
+        final Page<Robot> ret = robotRepository.findAllByModel(model, pageable);
+
+        logger.info("Retrieve page [{}/{}] with robots for model [{}]. Total [{}]",
+                pageable.getPageNumber() + 1, ret.getTotalPages(), model, ret.getTotalElements());
+
+        return ret;
+    }
+
+    @Override
+    public Page<Robot> search(final String search, final Pageable pageable) {
+        Validate.notNull(search);
+        Validate.notNull(pageable);
+        //TODO implement
         return null;
     }
 }

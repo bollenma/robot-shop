@@ -3,7 +3,7 @@ package arhs.cube.robotshop.services;
 import java.util.Collection;
 
 import arhs.cube.robotshop.core.Robot;
-import arhs.cube.robotshop.core.RobotType;
+import arhs.cube.robotshop.core.RobotModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,17 +18,13 @@ public interface RobotService {
 
     Robot update(Robot robot);
 
-    void delete(Robot robot);
-
     void delete(Long id);
 
-    Collection<Robot> retrieveAll();
+    void delete(Collection<Long> ids);
 
-    Collection<Robot> retrieveAllByType(RobotType type);
+    Page<Robot> retrieveAll(Pageable pageable);
 
-    Page<Robot> retrieveAllPaginated(Pageable pageable);
+    Page<Robot> retrieveAllByModel(RobotModel model, Pageable pageable);
 
-    Page<Robot> retrieveAllByTypePaginated(RobotType type, Pageable pageable);
-
-    Page<Robot> searchPaginated(String search, Pageable pageable);
+    Page<Robot> search(String search, Pageable pageable);
 }
