@@ -46,19 +46,20 @@ export class RobotService {
   }
   
   create(robot: Robot): Observable<Robot> {
-    if (isNullOrUndefined(robot.name) || robot.name === '') {
-      return Observable.throw('Name is required');
-    }
-    
-    if (!isNullOrUndefined(robot.id)) {
-      return Observable.throw('Cannot create a project that already has an id');
-    }
-    
     return this.http.post(this.url, robot)
       .map(
         response => response as Robot,
         error => RobotService.handleError(error),
       );
+  }
+  
+  update(robot: Robot): Observable<Robot> {
+    return this.http.put(this.url, robot)
+      .map(
+        response => response as Robot,
+        error => RobotService.handleError(error),
+      );
+  
   }
   
   remove(id: number) {

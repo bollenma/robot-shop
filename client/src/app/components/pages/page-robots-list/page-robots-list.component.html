@@ -4,6 +4,7 @@
 
     <!-- TODO search bar & refresh content with call to backend -->
 
+    <!-- The Browse by model menu -->
     <div class="list-group">
       <h4 class="list-group-item w3-theme">Browse by model</h4>
       <a class="list-group-item pointer"
@@ -18,20 +19,29 @@
   <div class="col-lg-9">
 
     <div class="row">
+
+      <!-- If there are no robots, display an information message -->
       <div *ngIf="robots.length == 0" class="info">There is no more robots to buy ...</div>
+
+      <!-- The robot card -->
       <div class="col-lg-4 col-md-6 mb-4" *ngFor="let robot of robots">
         <div class="card h-100">
-          <img class="card-img-top" src="https://robohash.org/{{robot.pictureHash}}" alt="">
-          <div class="card-body">
-            <h4 class="card-title">
-              {{robot.name}}
-            </h4>
+
+          <!-- Delete icon -->
+          <!--TODO visible only if logged in-->
+          <i class="material-icons big-icon pointer align-right" (click)="deleteRobot(robot.id)">highlight_off</i>
+
+          <div [ngClass]="{'sold-out': robot.soldout}">
+            <img class="card-img-top" src="https://robohash.org/{{robot.pictureHash}}" alt="">
+          </div>
+          <div class="card-body centered">
+            <h4 class="card-title">{{robot.name}}</h4>
             <h5>{{robot.model.label}}</h5>
             <h5>{{robot.price}} €</h5>
           </div>
-          <div class="card-footer pointer" (click)="buyRobot(robot.id)">
-            <span class="link-buy">Buy</span>
-          </div>
+          <button mat-raised-button class="button-buy" (click)="buyRobot(robot)" [disabled]="robot.soldout">
+            Buy
+          </button>
         </div>
       </div>
 

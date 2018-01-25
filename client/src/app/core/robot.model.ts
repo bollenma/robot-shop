@@ -6,6 +6,7 @@ export class Robot {
   model: RobotModel;
   price: number;
   pictureHash: string;
+  soldout: boolean;
   
   constructor() {
   

@@ -37,7 +37,6 @@ export class PageRobotsListComponent implements OnInit {
     this.robotService.findAllPaginated().subscribe(
       data => this.robots = data.content,
       error => console.log(error),
-      
     );
     this.activeModel = 'all';
   }
@@ -50,12 +49,18 @@ export class PageRobotsListComponent implements OnInit {
     this.activeModel = modelValue;
   }
   
-  buyRobot(id: number) {
+  buyRobot(robot: Robot) {
+    robot.soldout = true;
+    this.robotService.update(robot).subscribe(response => robot = response);
+    
+  }
+  
+  deleteRobot(id: number) {
     this.robotService.remove(id);
     
     // Remove robot from the controller's list
     const index = this.robots.findIndex(d => d.id === id);
     this.robots.splice(index, 1);
-    ;
+    
   }
 }

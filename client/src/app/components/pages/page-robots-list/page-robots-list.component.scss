@@ -37,8 +37,6 @@ h4.list-group-item {
 
 .card-body {
   background-color: #ffffff;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .card-img-top {
@@ -50,19 +48,18 @@ img {
   width: 253px;
 }
 
-.card-footer {
-  border-radius: 0 0 12px 12px;
-  background-color: $lighter-theme;
-  text-align: center;
-}
-
-.card-footer:hover {
+button {
   background-color: $light-theme;
-}
-
-.link-buy {
+  border-radius: 0 0 12px 12px;
   color: $white;
   font-size: x-large;
+  margin-top: auto;
+  text-align: center;
+  height: 50px;
+}
+
+button:hover {
+  background-color: $theme;
 }
 
 .info {
@@ -70,3 +67,20 @@ img {
   font-size: 35px;
   margin: 3rem;
 }
+
+.sold-out {
+  position: relative;
+}
+
+.sold-out::before {
+  content: url(../../../../assets/soldout.png);
+  transform: scale(.25);
+
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 8;
+  width: 20px;
+  height: 20px;
+}
+

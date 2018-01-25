@@ -32,6 +32,8 @@ public class Robot {
     @NotNull
     private String pictureHash;
 
+    private boolean soldout;
+
     public Long getId() {
         return id;
     }
@@ -70,6 +72,14 @@ public class Robot {
 
     public void setPictureHash(final String pictureHash) {
         this.pictureHash = pictureHash;
+    }
+
+    public boolean isSoldout() {
+        return soldout;
+    }
+
+    public void setSoldout(final boolean soldout) {
+        this.soldout = soldout;
     }
 
     @Override

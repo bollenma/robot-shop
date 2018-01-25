@@ -22,7 +22,7 @@ public final class RobotBuilder {
      */
     public static Robot build(final String name) {
 
-        return build(name, defaultModel, defaultPrice, name);
+        return build(name, defaultModel, defaultPrice, name, false);
     }
 
     /**
@@ -34,7 +34,19 @@ public final class RobotBuilder {
      */
     public static Robot build(final String name, final RobotModel model) {
 
-        return build(name, model, defaultPrice, name);
+        return build(name, model, defaultPrice, name, false);
+    }
+
+    /**
+     * Build a robot based on name, model. Uses default price.
+     *
+     * @param name  name of the robot
+     * @param model model of the robot
+     * @return the built robot.
+     */
+    public static Robot build(final String name, final RobotModel model, final boolean soldout) {
+
+        return build(name, model, defaultPrice, name, soldout);
     }
 
     /**
@@ -45,13 +57,14 @@ public final class RobotBuilder {
      * @param price price of the robot
      * @return the built robot.
      */
-    public static Robot build(final String name, final RobotModel model, final Integer price, final String pictureHash) {
+    public static Robot build(final String name, final RobotModel model, final Integer price, final String pictureHash, final boolean soldout) {
 
         final Robot ret = new Robot();
         ret.setName(name);
         ret.setModel(model);
         ret.setPrice(price);
         ret.setPictureHash(pictureHash);
+        ret.setSoldout(soldout);
         return ret;
     }
 }

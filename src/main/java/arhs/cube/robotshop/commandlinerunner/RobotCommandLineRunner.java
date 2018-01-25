@@ -25,8 +25,8 @@ public class RobotCommandLineRunner implements CommandLineRunner {
     public void run(final String... strings) throws Exception {
         final Collection<Robot> robots = new ArrayList<>();
 
-        robots.add(RobotBuilder.build("K-2SO", RobotModel.DOMESTIC));
-        robots.add(RobotBuilder.build("ICU", RobotModel.DOMESTIC));
+        robots.add(RobotBuilder.build("K-2SO", RobotModel.DOMESTIC, true));
+        robots.add(RobotBuilder.build("Juohmaru", RobotModel.DOMESTIC));
         robots.add(RobotBuilder.build("2-1B", RobotModel.MEDICAL));
         robots.add(RobotBuilder.build("IG-88", RobotModel.MEDICAL));
         robots.add(RobotBuilder.build("C-3PO", RobotModel.PROTOCOL));
