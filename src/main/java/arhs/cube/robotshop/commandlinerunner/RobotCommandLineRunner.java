@@ -1,4 +1,4 @@
-package arhs.cube.robotshop.repositories.commandlinerunner;
+package arhs.cube.robotshop.commandlinerunner;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,17 +22,17 @@ public class RobotCommandLineRunner implements CommandLineRunner {
     private RobotRepository robotRepository;
 
     @Override
-    public void run(String... strings) throws Exception {
+    public void run(final String... strings) throws Exception {
         final Collection<Robot> robots = new ArrayList<>();
 
-        robots.add(RobotBuilder.build("R2-D2", RobotModel.ASTROMECH));
-        robots.add(RobotBuilder.build("BB8", RobotModel.ASTROMECH));
-        robots.add(RobotBuilder.build("C-3PO", RobotModel.PROTOCOL));
+        robots.add(RobotBuilder.build("K-2SO", RobotModel.DOMESTIC));
+        robots.add(RobotBuilder.build("ICU", RobotModel.DOMESTIC));
         robots.add(RobotBuilder.build("2-1B", RobotModel.MEDICAL));
-        robots.add(RobotBuilder.build("IG-88", RobotModel.ASSASSIN));
-        robots.add(RobotBuilder.build("HK-47", RobotModel.ASSASSIN));
-        robots.add(RobotBuilder.build("K-2SO", RobotModel.BATTLE));
-        robots.add(RobotBuilder.build("ICU", RobotModel.SCOUT));
+        robots.add(RobotBuilder.build("IG-88", RobotModel.MEDICAL));
+        robots.add(RobotBuilder.build("C-3PO", RobotModel.PROTOCOL));
+        robots.add(RobotBuilder.build("6PO", RobotModel.PROTOCOL));
+        robots.add(RobotBuilder.build("R2-D2", RobotModel.TECHNICAL));
+        robots.add(RobotBuilder.build("BB8", RobotModel.TECHNICAL));
 
         robotRepository.save(robots);
         robotRepository.findAll().forEach(System.out::println);

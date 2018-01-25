@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
+ * CRUD service for Robot
+ *
  * @author bollenma
  */
 public interface RobotService {

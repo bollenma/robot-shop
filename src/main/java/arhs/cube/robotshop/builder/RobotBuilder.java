@@ -11,7 +11,7 @@ public final class RobotBuilder {
     private RobotBuilder() {
     }
 
-    private final static RobotModel defaultModel = RobotModel.ASTROMECH;
+    private final static RobotModel defaultModel = RobotModel.DOMESTIC;
     private final static Integer defaultPrice = 100000;
 
     /**
@@ -22,7 +22,7 @@ public final class RobotBuilder {
      */
     public static Robot build(final String name) {
 
-        return build(name, defaultModel, defaultPrice);
+        return build(name, defaultModel, defaultPrice, name);
     }
 
     /**
@@ -34,7 +34,7 @@ public final class RobotBuilder {
      */
     public static Robot build(final String name, final RobotModel model) {
 
-        return build(name, model, defaultPrice);
+        return build(name, model, defaultPrice, name);
     }
 
     /**
@@ -45,12 +45,13 @@ public final class RobotBuilder {
      * @param price price of the robot
      * @return the built robot.
      */
-    public static Robot build(final String name, final RobotModel model, final Integer price) {
+    public static Robot build(final String name, final RobotModel model, final Integer price, final String pictureHash) {
 
         final Robot ret = new Robot();
         ret.setName(name);
         ret.setModel(model);
         ret.setPrice(price);
+        ret.setPictureHash(pictureHash);
         return ret;
     }
 }

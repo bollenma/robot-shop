@@ -1,4 +1,4 @@
-package arhs.cube.robotshop.rest;
+package arhs.cube.robotshop.restcontroller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200")
-public class RobotRest {
+public class RobotRestController {
 
-    private final Logger logger = LoggerFactory.getLogger(RobotRest.class);
+    private final Logger logger = LoggerFactory.getLogger(RobotRestController.class);
 
     @Inject
     private RobotService robotService;
@@ -38,13 +38,14 @@ public class RobotRest {
      * @param request the HTTP servlet request
      * @return the created robot
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/robots",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Robot> create(@RequestBody final Robot robot, final HttpServletRequest request) throws URISyntaxException {
         Validate.notNull(robot);
 
-        logger.debug("REST request to create robot [{}]", robot);
+        logger.trace("REST request to create robot [{}]", robot);
 
         final Robot ret = robotService.create(robot);
 
@@ -67,7 +68,7 @@ public class RobotRest {
     public ResponseEntity<Robot> retrieve(@PathVariable final Long id) {
         Validate.notNull(id);
 
-        logger.debug("REST request to get Robot with id [{}]", id);
+        logger.trace("REST request to get Robot with id [{}]", id);
 
         final Robot ret = robotService.retrieve(id);
 
@@ -86,7 +87,7 @@ public class RobotRest {
     public ResponseEntity<Robot> update(@RequestBody final Robot robot) {
         Validate.notNull(robot);
 
-        logger.debug("REST request to update Robot with [{}]", robot);
+        logger.trace("REST request to update Robot with [{}]", robot);
 
         final Robot ret = robotService.update(robot);
 
@@ -104,7 +105,7 @@ public class RobotRest {
     public void delete(@PathVariable final Long id) {
         Validate.notNull(id);
 
-        logger.debug("REST request to delete robot [{}]", id);
+        logger.trace("REST request to delete robot [{}]", id);
 
         robotService.delete(id);
     }
@@ -120,7 +121,7 @@ public class RobotRest {
     public void deleteBatch(@RequestBody final Collection<Long> ids) {
         Validate.notNull(ids);
 
-        logger.debug("REST request to delete robots [{}]", ids);
+        logger.trace("REST request to delete robots [{}]", ids);
 
         robotService.delete(ids);
     }
@@ -136,7 +137,7 @@ public class RobotRest {
     public ResponseEntity<Page<Robot>> retrieveAll(final Pageable pageable) {
         Validate.notNull(pageable);
 
-        logger.debug("REST request to get all robots, paginated");
+        logger.trace("REST request to get all robots, paginated");
 
         final Page<Robot> ret = robotService.retrieveAll(pageable);
 
@@ -151,11 +152,28 @@ public class RobotRest {
     @RequestMapping(value = "/robots/model/{model}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<Robot>> retrieveAllByModel(@PathVariable final RobotModel model, final Pageable pageable){
+    public ResponseEntity<Page<Robot>> retrieveAllByModel(@PathVariable final RobotModel model, final Pageable pageable) {
         Validate.notNull(model);
+
+        logger.trace("REST request to get all robots of model [{}], paginated", model);
 
         final Page<Robot> ret = robotService.retrieveAllByModel(model, pageable);
 
         return ResponseEntity.ok().body(ret);
+    }
+
+    /**
+     * GET /robots/model-list => get the list of all robot models
+     *
+     * @return The list of all robot models
+     */
+    @RequestMapping(value = "/robots/model-list",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<RobotModel>> retrieveAllRobotModels() {
+
+        logger.trace("REST request to get the list of all robot models");
+
+        return ResponseEntity.ok().body(RobotModel.getAllModels());
     }
 }
