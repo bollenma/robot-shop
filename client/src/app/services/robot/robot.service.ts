@@ -1,14 +1,70 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import {Robot} from '../../core/robot.model';
+import {isNullOrUndefined} from 'util';
+import {URL_SERVER, API_ROBOTS} from '../../constants/ConstantsURL';
+import 'rxjs/add/operator/map';
+import {Page} from '../../core/page.model';
 
 @Injectable()
 export class RobotService {
   
+  url = URL_SERVER + API_ROBOTS;
+  
   constructor(private http: HttpClient) {
   }
   
-  getAll(): Observable<any> {
-    return this.http.get('http://localhost:8080/api/robots');
+  private static handleError(error: any): Observable<any> {
+    console.error('An error occurred', error);
+    return Observable.throw(error.message || error);
+  }
+  
+  findAllPaginated(): Observable<Page<Robot>> {
+    return this.http.get<Page<Robot>>(this.url)
+      .map(
+        response => response,
+        error => RobotService.handleError(error),
+      );
+  }
+  
+  find(id: number): Observable<Robot> {
+    return this.http.get<Robot>(this.url + '/' + id)
+      .map(
+        response => response,
+        error => RobotService.handleError(error),
+      );
+  }
+  
+  findByModelPaginated(model: string): Observable<Page<Robot>> {
+    return this.http.get(this.url + '/model/' + model)
+      .map(
+        response => response as Page<Robot>,
+        error => RobotService.handleError(error),
+      );
+    
+  }
+  
+  create(robot: Robot): Observable<Robot> {
+    if (isNullOrUndefined(robot.name) || robot.name === '') {
+      return Observable.throw('Name is required');
+    }
+    
+    if (!isNullOrUndefined(robot.id)) {
+      return Observable.throw('Cannot create a project that already has an id');
+    }
+    
+    return this.http.post(this.url, robot)
+      .map(
+        response => response as Robot,
+        error => RobotService.handleError(error),
+      );
+  }
+  
+  remove(id: number) {
+    this.http.delete(this.url + '/' + id).subscribe(
+      data => console.log(data),
+      error => RobotService.handleError(error),
+    );
   }
 }

@@ -1,0 +1,56 @@
+<div class="card h-100">
+  <div class="card-header">
+    <h2>Add a robot</h2>
+  </div>
+  <!--<h1 class="bold">Add a robot</h1>-->
+  <div class="card-body">
+    <form class="form-horizontal" #robotForm="ngForm">
+      <div class="row">
+        <div class="col-lg-6 column">
+          <img src="https://robohash.org/{{robot.pictureHash}}">
+          <button mat-raised-button
+                  class="button-generate"
+                  (click)="generatePicture()">
+            Generate a new picture
+          </button>
+        </div>
+        <div class="col-lg-6 column">
+
+          <mat-form-field style="display: none">
+            <input matInput
+                   [(ngModel)]="robot.pictureHash" id="picture" name="picture"
+                   placeholder="Picture">
+          </mat-form-field>
+
+
+          <mat-form-field>
+            <input matInput required
+                   [(ngModel)]="robot.name" id="name" name="name"
+                   placeholder="Robot's Name">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-select required
+                        [(value)]="robot.model" id="model"
+                        placeholder="Model of robot">
+              <mat-option *ngFor="let model of models" [(value)]="model.value">{{model.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="number" required min="0" step="100"
+                   [(ngModel)]="robot.price" id="price" name="price"
+                   placeholder="Price (€)">
+          </mat-form-field>
+
+          <button mat-raised-button [disabled]="robotForm.form.invalid"
+                  class="button-submit"
+                  (click)="onSubmit()">
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>

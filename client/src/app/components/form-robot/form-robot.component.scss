@@ -1,0 +1,39 @@
+@import "../../../variables";
+
+.card {
+  width: 70%;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  background-color: $dark-theme;
+  color: $white;
+  font-size: x-large;
+  text-align: center;
+  border-radius: 12px 12px 0 0;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  height: 300px;
+  width: 300px;
+  margin: 0 auto 15px auto;
+}
+
+mat-form-field {
+  margin-top: 1rem;
+}
+
+button {
+  background-color: $light-theme;
+  border-radius: 12px;
+  color: $white;
+  font-size: large;
+  margin-top:auto;
+}

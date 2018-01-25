@@ -1,0 +1,42 @@
+<div class="row">
+
+  <div class="col-lg-3">
+
+    <!-- TODO search bar & refresh content with call to backend -->
+
+    <div class="list-group">
+      <h4 class="list-group-item w3-theme">Browse by model</h4>
+      <a class="list-group-item pointer"
+         (click)="browseAll()"
+         [ngClass]="{'selected': 'all' == activeModel}">All models</a>
+      <a class="list-group-item pointer"
+         *ngFor="let model of models"
+         (click)="browseByModel(model.value)"
+         [ngClass]="{'selected': model.value == activeModel}">{{model.label}}</a>
+    </div>
+  </div>
+  <div class="col-lg-9">
+
+    <div class="row">
+      <div *ngIf="robots.length == 0" class="info">There is no more robots to buy ...</div>
+      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let robot of robots">
+        <div class="card h-100">
+          <img class="card-img-top" src="https://robohash.org/{{robot.pictureHash}}" alt="">
+          <div class="card-body">
+            <h4 class="card-title">
+              {{robot.name}}
+            </h4>
+            <h5>{{robot.model.label}}</h5>
+            <h5>{{robot.price}} €</h5>
+          </div>
+          <div class="card-footer pointer" (click)="buyRobot(robot.id)">
+            <span class="link-buy">Buy</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- TODO pager -->
+</div>
+

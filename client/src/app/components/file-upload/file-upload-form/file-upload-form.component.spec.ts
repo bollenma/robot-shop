@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RobotListComponent } from './robot-list.component';
+import { FileUploadFormComponent } from './file-upload-form.component';
 
-describe('RobotListComponent', () => {
-  let component: RobotListComponent;
-  let fixture: ComponentFixture<RobotListComponent>;
+describe('FileUploadFormComponent', () => {
+  let component: FileUploadFormComponent;
+  let fixture: ComponentFixture<FileUploadFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RobotListComponent ]
+      declarations: [ FileUploadFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RobotListComponent);
+    fixture = TestBed.createComponent(FileUploadFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
