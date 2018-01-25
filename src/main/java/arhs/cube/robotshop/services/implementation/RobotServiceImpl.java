@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RobotServiceImpl implements RobotService {
 
-    private final Logger logger = LoggerFactory.getLogger(RobotServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     @Inject
     private RobotRepository robotRepository;

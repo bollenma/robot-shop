@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:4200")
 public class RobotRestController {
 
-    private final Logger logger = LoggerFactory.getLogger(RobotRestController.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     @Inject
     private RobotService robotService;
