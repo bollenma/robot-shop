@@ -33,7 +33,7 @@
             <mat-select required
                         [(value)]="robot.model" id="model"
                         placeholder="Model of robot">
-              <mat-option *ngFor="let model of models" [(value)]="model.value">{{model.label}}</mat-option>
+              <mat-option *ngFor="let model of models" [(value)]="model.name">{{model.label}}</mat-option>
             </mat-select>
           </mat-form-field>
 

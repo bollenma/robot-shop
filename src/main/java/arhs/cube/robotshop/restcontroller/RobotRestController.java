@@ -6,8 +6,12 @@ import java.util.Collection;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import arhs.cube.robotshop.builder.RobotBuilder;
 import arhs.cube.robotshop.core.Robot;
 import arhs.cube.robotshop.core.RobotModel;
+import arhs.cube.robotshop.dto.RobotDto;
+import arhs.cube.robotshop.facades.RobotFacade;
+import arhs.cube.robotshop.services.RobotModelService;
 import arhs.cube.robotshop.services.RobotService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -29,25 +33,28 @@ public class RobotRestController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     @Inject
-    private RobotService robotService;
+    private RobotFacade robotFacade;
+
+    @Inject
+    private RobotModelService robotModelService;
 
     /**
      * POST /robots => Create a new Robot
      *
-     * @param robot   The robot to create
-     * @param request the HTTP servlet request
-     * @return the created robot
+     * @param robotDto The robot DTO to be created
+     * @param request  the HTTP servlet request
+     * @return the created robotDto
      */
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/robots",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Robot> create(@RequestBody final Robot robot, final HttpServletRequest request) throws URISyntaxException {
-        Validate.notNull(robot);
+    public ResponseEntity<RobotDto> create(@RequestBody final RobotDto robotDto, final HttpServletRequest request) throws URISyntaxException {
+        Validate.notNull(robotDto);
 
-        logger.trace("REST request to create robot [{}]", robot);
+        logger.trace("REST request to create robot [{}]", robotDto);
 
-        final Robot ret = robotService.create(robot);
+        final RobotDto ret = robotFacade.create(robotDto);
 
         final String uri = request.getRequestURI() + "/" + ret.getId();
 
@@ -65,12 +72,12 @@ public class RobotRestController {
     @RequestMapping(value = "/robots/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Robot> retrieve(@PathVariable final Long id) {
+    public ResponseEntity<RobotDto> retrieve(@PathVariable final Long id) {
         Validate.notNull(id);
 
         logger.trace("REST request to get Robot with id [{}]", id);
 
-        final Robot ret = robotService.retrieve(id);
+        final RobotDto ret = robotFacade.retrieve(id);
 
         return ret != null ? ResponseEntity.ok().body(ret) : ResponseEntity.notFound().build();
     }
@@ -78,18 +85,18 @@ public class RobotRestController {
     /**
      * PUT /robots => update the robot
      *
-     * @param robot new values for the robot
+     * @param robotDto new values for the robot
      * @return the updated robot
      */
     @RequestMapping(value = "/robots",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Robot> update(@RequestBody final Robot robot) {
-        Validate.notNull(robot);
+    public ResponseEntity<RobotDto> update(@RequestBody final RobotDto robotDto) {
+        Validate.notNull(robotDto);
 
-        logger.trace("REST request to update Robot with [{}]", robot);
+        logger.trace("REST request to update Robot with [{}]", robotDto);
 
-        final Robot ret = robotService.update(robot);
+        final RobotDto ret = robotFacade.update(robotDto);
 
         return ret != null ? ResponseEntity.ok().body(ret) : ResponseEntity.notFound().build();
     }
@@ -107,7 +114,7 @@ public class RobotRestController {
 
         logger.trace("REST request to delete robot [{}]", id);
 
-        robotService.delete(id);
+        robotFacade.delete(id);
     }
 
     /**
@@ -123,57 +130,47 @@ public class RobotRestController {
 
         logger.trace("REST request to delete robots [{}]", ids);
 
-        robotService.delete(ids);
+        robotFacade.delete(ids);
     }
 
     /**
      * GET /robots => get all robots (paginated)
      *
+     * @param pageable page configuration
      * @return Page with robots
      */
     @RequestMapping(value = "/robots",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<Robot>> retrieveAll(final Pageable pageable) {
+    public ResponseEntity<Page<RobotDto>> retrieveAll(final Pageable pageable) {
         Validate.notNull(pageable);
 
         logger.trace("REST request to get all robots, paginated");
 
-        final Page<Robot> ret = robotService.retrieveAll(pageable);
+        final Page<RobotDto> ret = robotFacade.retrieveAll(pageable);
 
         return ResponseEntity.ok().body(ret);
     }
 
     /**
-     * GET /robots/model/:model => get all the robots by model (paginated)
+     * GET /robots/model/:modelName => get all the robots by model (paginated)
      *
+     * @param modelName Name of the model for the robots to retrieve
+     * @param pageable  page configuration
      * @return Page with robots of the required model
      */
-    @RequestMapping(value = "/robots/model/{model}",
+    @RequestMapping(value = "/robots/model/{modelName}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<Robot>> retrieveAllByModel(@PathVariable final RobotModel model, final Pageable pageable) {
-        Validate.notNull(model);
+    public ResponseEntity<Page<RobotDto>> retrieveAllByModel(@PathVariable final String modelName, final Pageable pageable) {
+        Validate.notNull(modelName);
 
-        logger.trace("REST request to get all robots of model [{}], paginated", model);
+        logger.trace("REST request to get all robots of model [{}], paginated", modelName);
 
-        final Page<Robot> ret = robotService.retrieveAllByModel(model, pageable);
+        final Page<RobotDto> ret = robotFacade.retrieveAllByModel(modelName, pageable);
 
         return ResponseEntity.ok().body(ret);
     }
 
-    /**
-     * GET /robots/model-list => get the list of all robot models
-     *
-     * @return The list of all robot models
-     */
-    @RequestMapping(value = "/robots/model-list",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<RobotModel>> retrieveAllRobotModels() {
-
-        logger.trace("REST request to get the list of all robot models");
-
-        return ResponseEntity.ok().body(RobotModel.getAllModels());
-    }
+    // TODO search & search with model
 }

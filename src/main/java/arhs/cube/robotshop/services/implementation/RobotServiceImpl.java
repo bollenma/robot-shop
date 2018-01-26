@@ -6,7 +6,9 @@ import javax.inject.Inject;
 import arhs.cube.robotshop.common.exception.ApplicationException;
 import arhs.cube.robotshop.core.Robot;
 import arhs.cube.robotshop.core.RobotModel;
+import arhs.cube.robotshop.dto.RobotDto;
 import arhs.cube.robotshop.repositories.RobotRepository;
+import arhs.cube.robotshop.services.RobotModelService;
 import arhs.cube.robotshop.services.RobotService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -28,12 +30,15 @@ public class RobotServiceImpl implements RobotService {
     @Inject
     private RobotRepository robotRepository;
 
+    @Inject
+    private RobotModelService robotModelService;
+
     @Override
     public Robot create(final Robot robot) {
         Validate.notNull(robot);
 
         if (robot.getId() != null) {
-            throw new ApplicationException("Robot to be created already has an id")
+            throw new ApplicationException("Cannot create robot. Robot already has an id")
                     .addContextValue("robot", robot);
         }
 
@@ -62,14 +67,14 @@ public class RobotServiceImpl implements RobotService {
         // Cannot update a robot if there is no id
         final Long id = robot.getId();
         if (id == null) {
-            throw new ApplicationException("Robot to be updated has no id")
+            throw new ApplicationException("Cannot update robot. Robot has no id")
                     .addContextValue("robot", robot);
         }
 
         // Cannot update a robot if it doesn't already exists
         final Robot robotToUpdate = this.retrieve(id);
         if (robotToUpdate == null) {
-            throw new ApplicationException("Robot with given id doesn't exist")
+            throw new ApplicationException("Cannot update robot. Robot doesn't exist")
                     .addContextValue("id", id);
         }
 

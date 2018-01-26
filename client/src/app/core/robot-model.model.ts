@@ -1,5 +1,5 @@
 export class RobotModel {
-  value: string;
+  name: string;
   label: string;
   
   constructor() {

@@ -1,9 +1,7 @@
-import {RobotModel} from './robot-model.model';
-
 export class Robot {
   id: number;
   name: string;
-  model: RobotModel;
+  model: string;
   price: number;
   pictureHash: string;
   soldout: boolean;

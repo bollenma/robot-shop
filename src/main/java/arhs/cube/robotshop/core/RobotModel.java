@@ -1,54 +1,59 @@
 package arhs.cube.robotshop.core;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
-import arhs.cube.robotshop.common.exception.ApplicationException;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * @author bollenma
  */
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum RobotModel {
+@Entity
+public class RobotModel {
 
-    DOMESTIC("DOMESTIC", "Domestic robot"),
-    MEDICAL("MEDICAL", "Medical droid"),
-    PROTOCOL("PROTOCOL", "Protocol droid"),
-    TECHNICAL("TECHNICAL", "Technical robot");
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private final String value;
-    private final String label;
+    @NotNull
+    private String name;
 
-    RobotModel(final String value, final String label) {
-        this.value = value;
-        this.label = label;
+    @NotNull
+    private String label;
+
+    public Long getId() {
+        return id;
     }
 
-    public static RobotModel mapRobotModel(final String model) {
-        for (final RobotModel enumerate : RobotModel.values()) {
-            if (StringUtils.equalsIgnoreCase(enumerate.name(), model)) {
-                return enumerate;
-            }
-        }
-        throw new ApplicationException("Unforeseen robot model")
-                .addContextValue("model", model);
+    public void setId(final Long id) {
+        this.id = id;
     }
 
-    public static Collection<RobotModel> getAllModels() {
-        final Collection<RobotModel> ret = new ArrayList<>();
-
-        CollectionUtils.addAll(ret, RobotModel.values());
-        return ret;
+    public String getName() {
+        return name;
     }
 
-    public String getValue() {
-        return value;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public String getLabel() {
         return label;
+    }
+
+    public void setLabel(final String label) {
+        this.label = label;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("name", name)
+                .append("label", label)
+                .toString();
     }
 }

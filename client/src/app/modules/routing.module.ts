@@ -6,7 +6,7 @@ import {PageRobotsNewComponent} from '../components/pages/page-robots-new/page-r
 const routes: Routes = [
   {path: '', redirectTo: '/robots', pathMatch: 'full'},
   {path: 'robots', component: PageRobotsListComponent},
-  {path: 'robots/new', component: PageRobotsNewComponent},
+  {path: 'new-robot', component: PageRobotsNewComponent},
 
 ];
 

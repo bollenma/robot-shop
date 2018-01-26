@@ -1,11 +1,9 @@
 package arhs.cube.robotshop.core;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import arhs.cube.robotshop.dto.RobotDto;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -23,16 +21,32 @@ public class Robot {
     @NotNull
     private String name;
 
+    @ManyToOne
     @NotNull
     private RobotModel model;
 
     @NotNull
-    private Integer price;
+    private Float price;
 
     @NotNull
     private String pictureHash;
 
+    @NotNull
     private boolean soldout;
+
+    public Robot(){
+
+    }
+
+    public Robot(final RobotDto dto, final RobotModel model){
+        this.id = dto.getId();
+        this.name = dto.getName();
+        this.model = model;
+        this.price = dto.getPrice();
+        this.pictureHash = dto.getPictureHash();
+        this.soldout = dto.isSoldout();
+    }
+
 
     public Long getId() {
         return id;
@@ -58,11 +72,11 @@ public class Robot {
         this.model = model;
     }
 
-    public Integer getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(final Integer price) {
+    public void setPrice(final Float price) {
         this.price = price;
     }
 
@@ -91,4 +105,6 @@ public class Robot {
                 .append("price", price)
                 .toString();
     }
+
+
 }
