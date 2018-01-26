@@ -16,6 +16,7 @@ export class PageRobotsListComponent implements OnInit {
   models: RobotModel[];
   modelLabels: Map<string, string> = new Map();
   
+  search: string;
   activeModel = 'all';
   
   currentPage: number;
@@ -73,5 +74,9 @@ export class PageRobotsListComponent implements OnInit {
   
   getModelLabel(modelName: string): string {
     return this.modelLabels.get(modelName);
+  }
+  
+  launchSearch() {
+    // this.robotService
   }
 }

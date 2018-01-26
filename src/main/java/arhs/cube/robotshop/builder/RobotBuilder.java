@@ -11,19 +11,7 @@ public final class RobotBuilder {
     private RobotBuilder() {
     }
 
-    private final static RobotModel defaultModel = RobotModelBuilder.build("DOMESTIC", "Domestic robot");
     private final static Float defaultPrice = 10000F;
-
-    /**
-     * Build a robot based on name. Uses default model and price.
-     *
-     * @param name name of the robot
-     * @return the built robot.
-     */
-    public static Robot build(final String name) {
-
-        return build(name, defaultModel, defaultPrice, name, false);
-    }
 
     /**
      * Build a robot based on name, model. Uses default price.

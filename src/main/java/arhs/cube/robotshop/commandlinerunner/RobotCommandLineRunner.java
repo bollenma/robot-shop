@@ -40,6 +40,7 @@ public class RobotCommandLineRunner implements CommandLineRunner {
         models.add(modelTechnical);
 
         robotModelRepository.save(models);
+        System.out.println("---- Robot Models ----");
         robotModelRepository.findAll().forEach(System.out::println);
 
         final Collection<Robot> robots = new ArrayList<>();
@@ -50,10 +51,12 @@ public class RobotCommandLineRunner implements CommandLineRunner {
         robots.add(RobotBuilder.build("IG-88", modelMedical));
         robots.add(RobotBuilder.build("C-3PO", modelProtocol));
         robots.add(RobotBuilder.build("6PO", modelProtocol));
+        robots.add(RobotBuilder.build("F.C.B", modelTechnical, 1000000F, "9VeZLM9tkN", false));
         robots.add(RobotBuilder.build("R2-D2", modelTechnical));
         robots.add(RobotBuilder.build("BB8", modelTechnical));
 
         robotRepository.save(robots);
+        System.out.println("---- Robot ----");
         robotRepository.findAll().forEach(System.out::println);
     }
 }

@@ -40,3 +40,7 @@ button {
 button:hover {
   background-color: $theme;
 }
+
+button:focus{
+  outline: none;
+}

@@ -3,6 +3,13 @@
   <div class="col-lg-3">
 
     <!-- TODO search bar & refresh content with call to backend -->
+    <mat-input-container>
+      <input matInput
+             [(ngModel)]="search" id="search" name="search"
+             (change)="launchSearch()"
+             placeholder="Search a robot by name">
+    </mat-input-container>
+
 
     <!-- The Browse by model menu -->
     <div class="list-group">

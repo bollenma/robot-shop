@@ -62,6 +62,10 @@ button:hover {
   background-color: $theme;
 }
 
+button:focus{
+  outline: none;
+}
+
 .info {
   color: grey;
   font-size: 35px;

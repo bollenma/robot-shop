@@ -2,49 +2,61 @@
   <div class="card-header">
     <h2>Add a robot</h2>
   </div>
-  <!--<h1 class="bold">Add a robot</h1>-->
   <div class="card-body">
-    <form class="form-horizontal" #robotForm="ngForm">
+    <form class="form-horizontal" novalidate
+          [formGroup]="robotForm">
+
+      <!-- Picture column -->
       <div class="row">
         <div class="col-lg-6 column">
-          <img src="https://robohash.org/{{robot.pictureHash}}">
-          <button mat-raised-button
-                  class="button-generate"
+          <img src="https://robohash.org/{{robotForm.get('pictureHash').value}}">
+          <button mat-raised-button class="button-generate"
                   (click)="generatePicture()">
             Generate a new picture
           </button>
         </div>
+
+        <!-- Fields column -->
         <div class="col-lg-6 column">
 
+          <!-- Picture field -- Hidden -->
           <mat-form-field style="display: none">
             <input matInput
-                   [(ngModel)]="robot.pictureHash" id="picture" name="picture"
-                   placeholder="Picture">
+                   formControlName="pictureHash">
           </mat-form-field>
 
-
+          <!-- Name field -->
           <mat-form-field>
             <input matInput required
-                   [(ngModel)]="robot.name" id="name" name="name"
+                   formControlName="name"
                    placeholder="Robot's Name">
           </mat-form-field>
 
+          <!-- Model field -->
           <mat-form-field>
             <mat-select required
-                        [(value)]="robot.model" id="model"
+                        formControlName="model"
                         placeholder="Model of robot">
               <mat-option *ngFor="let model of models" [(value)]="model.name">{{model.label}}</mat-option>
             </mat-select>
           </mat-form-field>
 
+          <!-- Price field -->
           <mat-form-field>
             <input matInput type="number" required min="0" step="100"
-                   [(ngModel)]="robot.price" id="price" name="price"
+                   formControlName="price"
                    placeholder="Price (€)">
+            <mat-hint>Price must be between {{minPrice}}€ and {{maxPrice}}€</mat-hint>
+            <!--<div *ngIf="price..min">-->
+              <!--Minimum required number is 15.-->
+            <!--</div>-->
+
           </mat-form-field>
 
-          <button mat-raised-button [disabled]="robotForm.form.invalid"
-                  (click)="onSubmit()">
+          <!-- Submit button -->
+          <button mat-raised-button
+                  (click)="onSubmit()"
+                  [disabled]="!robotForm.valid">
             Submit
           </button>
         </div>

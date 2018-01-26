@@ -1,6 +1,6 @@
 import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -13,6 +13,8 @@ import {MaterialModule} from './modules/material.module';
 import {RoutingModule} from './modules/routing.module';
 import {RobotModelService} from './services/robot-model/robot-model.service';
 import {RobotService} from './services/robot/robot.service';
+import {DialogRobotCreatedComponent} from './components/form-robot/dialogs/dialog-robot-created/dialog-robot-created.component';
+import {DialogRobotCreationErrorComponent} from './components/form-robot/dialogs/dialog-robot-creation-error/dialog-robot-creation-error.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import {RobotService} from './services/robot/robot.service';
     PageRobotsNewComponent,
     FormRobotComponent,
     ActiveItemDirective,
+    DialogRobotCreatedComponent,
+    DialogRobotCreationErrorComponent,
   ],
   
   imports: [
@@ -30,13 +34,21 @@ import {RobotService} from './services/robot/robot.service';
     MaterialModule,
     RoutingModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   
   providers: [
     RobotService,
     RobotModelService,
   ],
+  
   bootstrap: [AppComponent],
+  
+  entryComponents: [
+    DialogRobotCreatedComponent,
+    DialogRobotCreationErrorComponent,
+  ],
+  
 })
 
 export class AppModule {
