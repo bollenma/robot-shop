@@ -1,6 +1,5 @@
-package arhs.cube.robotshop.restcontroller;
+package arhs.cube.robotshop.restcontrollers;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.inject.Inject;

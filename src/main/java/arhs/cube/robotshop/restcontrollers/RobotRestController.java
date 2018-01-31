@@ -1,4 +1,4 @@
-package arhs.cube.robotshop.restcontroller;
+package arhs.cube.robotshop.restcontrollers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -6,13 +6,9 @@ import java.util.Collection;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import arhs.cube.robotshop.builder.RobotBuilder;
-import arhs.cube.robotshop.core.Robot;
-import arhs.cube.robotshop.core.RobotModel;
 import arhs.cube.robotshop.dto.RobotDto;
 import arhs.cube.robotshop.facades.RobotFacade;
 import arhs.cube.robotshop.services.RobotModelService;
-import arhs.cube.robotshop.services.RobotService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
