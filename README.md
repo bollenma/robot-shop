@@ -13,35 +13,6 @@ Prototype of a Robot store application. It is implemented with Angular5 and Java
 - Java (v1.8)
 - Maven (v3.3+).
 
-## Installation
-
-### Front-end
-
-Execute those commands in the folder `client` to build the front-end:
- 1. `npm install`
-
-### Back-end
-
-Execute the command `mvn install` in the folder `src/main/java` to download all dependencies for the back-end. 
-
-## Build the application
-
-Execute those commands to build the application:
-
-1. `node_modules/.bin/ng` (or `node_modules/.bin/ng.cmd` for windows) in the `client` folder;
-2. `mvn install` in the `src/main/java` folder.
-
-Then, a jar is produce in `src/man/java/target` folder.
-
-## Run the application
-
-Once the jar is generated, `java -jar petstore.jar`, with `petstore.jar` the path to the generated jar, start the server.
-
-It is also possible to run `mvn spring-boot:run` in `src/man/java` folder to start it.
-
-It can be accessed with the URL [http://localhost:4200/](http://localhost:4200/).
-Localhost can be replaced with any address referring to the computer launching the jar.
-
 ## Organization of the robot store
 
 ### Front-end
