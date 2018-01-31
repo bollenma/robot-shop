@@ -37,7 +37,7 @@
 
           <!-- Delete icon -->
           <!--TODO visible only if logged in-->
-          <i class="material-icons delete-icon" (click)="deleteRobot(robot.id)">highlight_off</i>
+          <i class="material-icons delete-icon" (click)="openDeleteDialog(robot)">highlight_off</i>
 
           <div [ngClass]="{'sold-out': robot.soldout}">
             <img class="card-img-top"

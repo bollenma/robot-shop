@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PageEvent} from '@angular/material';
+import {PageEvent, MatDialog} from '@angular/material';
 import {isUndefined} from 'util';
 import {Page} from '../../../core/page.model';
 import {RobotModel} from '../../../core/robot-model.model';
@@ -7,6 +7,7 @@ import {Robot} from '../../../core/robot.model';
 import {RobotModelService} from '../../../services/robot-model/robot-model.service';
 import {RobotService} from '../../../services/robot/robot.service';
 import {StringUtils} from '../../../utils/stringUtils';
+import {DialogRobotDeleteComponent} from './dialog-robot-delete/dialog-robot-delete.component';
 
 @Component({
   selector: 'app-page-robots-list',
@@ -31,7 +32,8 @@ export class PageRobotsListComponent implements OnInit {
   pageSizeOptions = [3, 6, 9, 12, 15];
   
   constructor(private robotService: RobotService,
-              private robotModelService: RobotModelService) {
+              private robotModelService: RobotModelService,
+              private dialog: MatDialog) {
   }
   
   ngOnInit() {
@@ -130,6 +132,24 @@ export class PageRobotsListComponent implements OnInit {
     
   }
   
+  getModelLabel(modelName: string): string {
+    return this.modelLabels.get(modelName);
+  }
+  
+  openDeleteDialog(robot: Robot): void {
+    const dialogRef = this.dialog.open(DialogRobotDeleteComponent, {
+      width: '400px',
+      data: {name: robot.name, id: robot.id},
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.deleteRobot(robot.id);
+      }
+    });
+    
+  }
+  
   deleteRobot(id: number): void {
     this.robotService.remove(id);
     
@@ -137,10 +157,6 @@ export class PageRobotsListComponent implements OnInit {
     const index = this.robots.findIndex(d => d.id === id);
     this.robots.splice(index, 1);
     
-  }
-  
-  getModelLabel(modelName: string): string {
-    return this.modelLabels.get(modelName);
   }
   
 }

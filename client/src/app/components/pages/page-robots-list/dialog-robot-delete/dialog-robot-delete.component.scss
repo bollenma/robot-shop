@@ -1,0 +1,17 @@
+@import "../../../../../variables";
+
+button {
+  background-color: $light-theme;
+  border-radius: $round-corner;
+  color: $white;
+  font-size: large;
+  margin: 0 auto;
+}
+
+button:hover {
+  background-color: $theme;
+}
+
+button:focus{
+  outline: none;
+}

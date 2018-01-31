@@ -14,6 +14,7 @@ import {MaterialModule} from './modules/material.module';
 import {RoutingModule} from './modules/routing.module';
 import {RobotModelService} from './services/robot-model/robot-model.service';
 import {RobotService} from './services/robot/robot.service';
+import {DialogRobotDeleteComponent} from './components/pages/page-robots-list/dialog-robot-delete/dialog-robot-delete.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {RobotService} from './services/robot/robot.service';
     FormRobotComponent,
     DialogRobotCreatedComponent,
     DialogRobotCreationErrorComponent,
+    DialogRobotDeleteComponent,
   ],
   
   imports: [
@@ -45,6 +47,7 @@ import {RobotService} from './services/robot/robot.service';
   entryComponents: [
     DialogRobotCreatedComponent,
     DialogRobotCreationErrorComponent,
+    DialogRobotDeleteComponent,
   ],
   
 })
