@@ -2,15 +2,11 @@
 
   <div class="col-lg-3">
 
-    <!-- TODO search bar & refresh content with call to backend -->
     <form id="search-form" (ngSubmit)="launchSearch()">
-      <!--<mat-input-container>-->
       <i class="material-icons" id="search-icon">search</i>
       <input autocomplete="off"
-               [(ngModel)]="query" id="search" name="search"
-               placeholder="Search a robot by name">
-      <!--</mat-input-container>-->
-      <!--<button mat-raised-button type="submit">Submit</button>-->
+             [(ngModel)]="query" id="search" name="search"
+             placeholder="Search a robot by name">
     </form>
 
 
@@ -18,45 +14,53 @@
     <div class="list-group">
       <h4 class="list-group-item w3-theme">Browse by model</h4>
       <a class="list-group-item pointer"
-         (click)="browseAll()"
-         [ngClass]="{'selected': 'all' == activeModel}">All models</a>
+         (click)="browse(ALL_MODELS)"
+         [ngClass]="{'selected': ALL_MODELS == activeModel}">All models</a>
       <a class="list-group-item pointer"
          *ngFor="let model of models"
-         (click)="browseByModel(model.name)"
+         (click)="browse(model.name)"
          [ngClass]="{'selected': model.name == activeModel}">{{model.label}}</a>
     </div>
   </div>
   <div class="col-lg-9">
 
+    <!-- If there are no robots, display an information message -->
     <div class="row">
+      <div *ngIf="robots === undefined || robots.length == 0" class="info">There is no robot here :(</div>
+    </div>
 
-      <!-- If there are no robots, display an information message -->
-      <div *ngIf="robots.length == 0" class="info">There is no more robots to buy ...</div>
+    <!-- The robot card -->
+    <div class="row" *ngIf="robots != undefined">
 
-      <!-- The robot card -->
       <div class="col-lg-4 col-md-6 mb-4" *ngFor="let robot of robots">
-        <div class="card h-100">
+        <div class="card h-100 position-relative">
 
           <!-- Delete icon -->
           <!--TODO visible only if logged in-->
-          <i class="material-icons big-icon pointer align-right" (click)="deleteRobot(robot.id)">highlight_off</i>
+          <i class="material-icons delete-icon" (click)="deleteRobot(robot.id)">highlight_off</i>
 
           <div [ngClass]="{'sold-out': robot.soldout}">
-            <img class="card-img-top" src="https://robohash.org/{{robot.pictureHash}}" alt="">
+            <img class="card-img-top"
+                 src="https://robohash.org/{{robot.pictureHash}}">
           </div>
           <div class="card-body centered">
             <h4 class="card-title">{{robot.name}}</h4>
-            <h5>{{getModelLabel(robot.model)}}</h5>
-            <h5>{{robot.price}} €</h5>
+            <h6>{{getModelLabel(robot.model)}}</h6>
+            <h6>{{robot.price}} €</h6>
           </div>
           <button mat-raised-button class="button-buy" (click)="buyRobot(robot)" [disabled]="robot.soldout">
             Buy
           </button>
         </div>
       </div>
-
     </div>
   </div>
-  <!-- TODO pager -->
+
+  <mat-paginator [length]="pageEvent.length"
+                 [pageSize]="pageEvent.pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="browse(activeModel, $event)">
+  </mat-paginator>
+
 </div>
 

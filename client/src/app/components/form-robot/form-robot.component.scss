@@ -2,8 +2,8 @@
 
 .card {
   width: 70%;
-  border-radius: 12px;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+  border-radius: $round-corner;
+  box-shadow: $box-shadow;
 }
 
 .card-header {
@@ -11,7 +11,7 @@
   color: $white;
   font-size: x-large;
   text-align: center;
-  border-radius: 12px 12px 0 0;
+  border-radius: $round-corner-top;
 }
 
 .column {
@@ -31,7 +31,7 @@ mat-form-field {
 
 button {
   background-color: $light-theme;
-  border-radius: 12px;
+  border-radius: $round-corner;
   color: $white;
   font-size: large;
   margin-top: auto;

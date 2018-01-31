@@ -6,8 +6,8 @@ h4.list-group-item {
 }
 
 .list-group {
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
+  box-shadow: $box-shadow;
+  border-radius: $round-corner;
 }
 
 .list-group-item:hover:not(:first-child) {
@@ -19,28 +19,29 @@ h4.list-group-item {
 }
 
 .list-group-item:first-child {
-  border-radius: 12px 12px 0 0;
+  border-radius: $round-corner-top;
 }
 
 .list-group-item:last-child {
-  border-radius: 0 0 12px 12px;
+  border-radius: $round-corner-bottom;
 }
 
 .card {
-  border-radius: 12px;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+  border-radius: $round-corner;
+  box-shadow: $box-shadow;
 }
 
 .card:hover {
-  box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: $box-shadow-hover;
 }
 
 .card-body {
   background-color: #ffffff;
+  padding: 0.5rem;
 }
 
 .card-img-top {
-  border-radius: 12px 12px 0 0;
+  border-radius: $round-corner-top;
 }
 
 img {
@@ -50,7 +51,7 @@ img {
 
 button {
   background-color: $light-theme;
-  border-radius: 0 0 12px 12px;
+  border-radius: $round-corner-bottom;
   color: $white;
   font-size: x-large;
   margin-top: auto;
@@ -67,8 +68,8 @@ button:focus {
 }
 
 .info {
-  color: grey;
-  font-size: 35px;
+  color: $light-theme;
+  font-size: 36px;
   margin: 3rem;
 }
 
@@ -107,10 +108,28 @@ button:focus {
   height: 50px;
   padding: 6px 15px 6px 45px;
   margin-bottom: 1.5rem;
-  border-radius: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;
+  border-radius: $round-corner;
+  box-shadow: $box-shadow;
 }
 
 #search:focus {
   outline: none;
+}
+
+mat-paginator {
+  margin: 0 auto 0 auto;
+  border-radius: $round-corner;
+  box-shadow: $box-shadow;
+}
+
+.delete-icon {
+  cursor: pointer;
+  font-size: 36px;
+  margin-left: auto;
+  color: $dark-theme;
+  position: absolute;
+  z-index: 10;
+  top: 5px;
+  right: 5px;
+
 }

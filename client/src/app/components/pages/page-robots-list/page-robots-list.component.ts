@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Robot} from '../../../core/robot.model';
-import {RobotService} from '../../../services/robot/robot.service';
-import {RobotModelService} from '../../../services/robot-model/robot-model.service';
+import {PageEvent} from '@angular/material';
+import {isUndefined} from 'util';
+import {Page} from '../../../core/page.model';
 import {RobotModel} from '../../../core/robot-model.model';
-import {forEach} from '@angular/router/src/utils/collection';
+import {Robot} from '../../../core/robot.model';
+import {RobotModelService} from '../../../services/robot-model/robot-model.service';
+import {RobotService} from '../../../services/robot/robot.service';
+import {StringUtils} from '../../../utils/stringUtils';
 
 @Component({
   selector: 'app-page-robots-list',
@@ -19,10 +22,13 @@ export class PageRobotsListComponent implements OnInit {
   modelLabels: Map<string, string> = new Map();
   
   query: string;
+  previousQuery: string;
+  searchExecuted = false;
+  
   activeModel: string;
   
-  currentPage: number;
-  maximumPage: number;
+  pageEvent = new PageEvent();
+  pageSizeOptions = [3, 6, 9, 12, 15];
   
   constructor(private robotService: RobotService,
               private robotModelService: RobotModelService) {
@@ -30,9 +36,20 @@ export class PageRobotsListComponent implements OnInit {
   
   ngOnInit() {
     
-    this.browseAll();
+    // Set the pager settings
+    this.pageEvent.pageIndex = 0;
+    this.pageEvent.pageSize = 6;
+    
+    // Set the active model to All models
     this.activeModel = this.ALL_MODELS;
     
+    // Get all the robots
+    this.browse(this.activeModel, this.pageEvent);
+    
+    // The selected model is "All models"
+    this.activeModel = this.ALL_MODELS;
+    
+    // Get all the robot models
     this.robotModelService.findAll().subscribe(
       data => {
         this.models = data;
@@ -44,20 +61,67 @@ export class PageRobotsListComponent implements OnInit {
     );
   }
   
-  browseAll() {
-    this.robotService.findAllPaginated().subscribe(
-      data => this.robots = data.content,
-      error => console.log(error),
-    );
-    this.activeModel = this.ALL_MODELS;
+  browse(modelValue: string, pageEventParam: PageEvent) {
+    this.activeModel = modelValue;
+    if (isUndefined(pageEventParam)) {
+      this.resetPageSettings();
+    } else {
+      this.pageEvent = pageEventParam;
+    }
+    
+    // If there is a search executed, it is executed before the normal browsing
+    if (this.searchExecuted) {
+      this.launchSearch();
+      return;
+    }
+    
+    if (modelValue === this.ALL_MODELS) {
+      this.robotService.findAllPaginated(this.pageEvent).subscribe(
+        data => this.updateRobotsWithResults(data),
+        error => console.log(error),
+      );
+    } else {
+      this.robotService.findByModelPaginated(modelValue, this.pageEvent).subscribe(
+        data => this.updateRobotsWithResults(data),
+        error => console.log(error),
+      );
+    }
+    
   }
   
-  browseByModel(modelValue: string) {
-    this.robotService.findByModelPaginated(modelValue).subscribe(
-      data => this.robots = data.content,
-      error => console.log(error),
-    );
-    this.activeModel = modelValue;
+  launchSearch() {
+    
+    // Start from first page if it's a new query
+    const isNewSearch = StringUtils.isEmpty(this.previousQuery) || this.previousQuery !== this.query;
+    if (isNewSearch) {
+      this.resetPageSettings();
+    }
+    
+    this.previousQuery = this.query;
+    
+    // A search has been executed if the query is not empty
+    this.searchExecuted = !StringUtils.isEmpty(this.query);
+    
+    if (this.activeModel === this.ALL_MODELS) {
+      this.robotService.search(this.query, this.pageEvent).subscribe(
+        data => this.updateRobotsWithResults(data),
+        error => console.log(error),
+      );
+    } else {
+      return this.robotService.searchWithModel(this.query, this.activeModel, this.pageEvent).subscribe(
+        data => this.updateRobotsWithResults(data),
+        error => console.log(error),
+      );
+    }
+  }
+  
+  resetPageSettings() {
+    this.pageEvent.pageIndex = 0;
+  }
+  
+  updateRobotsWithResults(robotsPage: Page<Robot>) {
+    this.robots = robotsPage.content;
+    this.pageEvent.length = robotsPage.totalElements;
   }
   
   buyRobot(robot: Robot): void {
@@ -79,17 +143,4 @@ export class PageRobotsListComponent implements OnInit {
     return this.modelLabels.get(modelName);
   }
   
-  launchSearch() {
-    if (this.activeModel === this.ALL_MODELS) {
-      this.robotService.search(this.query).subscribe(
-        data => this.robots = data.content,
-        error => console.log(error),
-      );
-    } else {
-      return this.robotService.searchWithModel(this.query, this.activeModel).subscribe(
-        data => this.robots = data.content,
-        error => console.log(error),
-      );
-    }
-  }
 }

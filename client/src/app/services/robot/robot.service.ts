@@ -6,6 +6,8 @@ import {isNullOrUndefined} from 'util';
 import {URL_SERVER, API_ROBOTS} from '../../constants/ConstantsURL';
 import 'rxjs/add/operator/map';
 import {Page} from '../../core/page.model';
+import {Pageable} from '../../core/pageable.model';
+import {PageEvent} from '@angular/material';
 
 @Injectable()
 export class RobotService {
@@ -20,8 +22,14 @@ export class RobotService {
     return Observable.throw(error.message || error);
   }
   
-  findAllPaginated(): Observable<Page<Robot>> {
-    return this.http.get<Page<Robot>>(this.url)
+  findAllPaginated(pageEvent: PageEvent): Observable<Page<Robot>> {
+    const params = {
+      params: {
+        page: pageEvent.pageIndex.toString(),
+        size: pageEvent.pageSize.toString(),
+      },
+    };
+    return this.http.get<Page<Robot>>(this.url, params)
       .map(
         response => response,
         error => RobotService.handleError(error),
@@ -36,8 +44,14 @@ export class RobotService {
       );
   }
   
-  findByModelPaginated(model: string): Observable<Page<Robot>> {
-    return this.http.get(this.url + '/model/' + model)
+  findByModelPaginated(model: string, pageEvent: PageEvent): Observable<Page<Robot>> {
+    const params = {
+      params: {
+        page: pageEvent.pageIndex.toString(),
+        size: pageEvent.pageSize.toString(),
+      },
+    };
+    return this.http.get(this.url + '/model/' + model, params)
       .map(
         response => response as Page<Robot>,
         error => RobotService.handleError(error),
@@ -45,16 +59,31 @@ export class RobotService {
     
   }
   
-  search(search: string): Observable<Page<Robot>> {
-    return this.http.get(this.url + '/search', {params: {query: search}})
+  search(search: string, pageEvent: PageEvent): Observable<Page<Robot>> {
+    const params = {
+      params: {
+        query: search,
+        page: pageEvent.pageIndex.toString(),
+        size: pageEvent.pageSize.toString(),
+      },
+    };
+    return this.http.get(this.url + '/search', params)
       .map(
         response => response as Page<Robot>,
         error => RobotService.handleError(error),
       );
   }
   
-  searchWithModel(search: string, model: string): Observable<Page<Robot>> {
-    return this.http.get(this.url + '/search', {params: {query: search, model: model}})
+  searchWithModel(search: string, model: string, pageEvent: PageEvent): Observable<Page<Robot>> {
+    const params = {
+      params: {
+        query: search,
+        model: model,
+        page: pageEvent.pageIndex.toString(),
+        size: pageEvent.pageSize.toString(),
+      },
+    };
+    return this.http.get(this.url + '/search', params)
       .map(
         response => response as Page<Robot>,
         error => RobotService.handleError(error),

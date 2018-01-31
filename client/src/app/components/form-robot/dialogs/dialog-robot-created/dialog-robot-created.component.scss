@@ -2,7 +2,7 @@
 
 button {
   background-color: $light-theme;
-  border-radius: 12px;
+  border-radius: $round-corner;
   color: $white;
   font-size: large;
   margin: 0 auto;
