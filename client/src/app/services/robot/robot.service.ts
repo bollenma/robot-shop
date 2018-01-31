@@ -45,6 +45,22 @@ export class RobotService {
     
   }
   
+  search(search: string): Observable<Page<Robot>> {
+    return this.http.get(this.url + '/search', {params: {query: search}})
+      .map(
+        response => response as Page<Robot>,
+        error => RobotService.handleError(error),
+      );
+  }
+  
+  searchWithModel(search: string, model: string): Observable<Page<Robot>> {
+    return this.http.get(this.url + '/search', {params: {query: search, model: model}})
+      .map(
+        response => response as Page<Robot>,
+        error => RobotService.handleError(error),
+      );
+  }
+  
   create(robot: Robot): Observable<Robot> {
     return this.http.post(this.url, robot)
       .map(
@@ -59,15 +75,14 @@ export class RobotService {
         response => response as Robot,
         error => RobotService.handleError(error),
       );
-  
+    
   }
   
   remove(id: number) {
     this.http.delete(this.url + '/' + id).subscribe(
-      data => console.log(data),
+      response => console.log(response),
       error => RobotService.handleError(error),
     );
   }
-  
   
 }

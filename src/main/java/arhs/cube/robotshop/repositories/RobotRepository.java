@@ -15,7 +15,8 @@ public interface RobotRepository extends JpaRepository<Robot, Long> {
 
     Page<Robot> findAllByModel(RobotModel model, Pageable pageable);
 
-    Robot findByNameContaining(String name);
+    Page<Robot> findAllByNameIgnoreCaseContaining(String name, Pageable pageable);
 
+    Page<Robot> findAllByNameIgnoreCaseContainingAndModel(String name, RobotModel robotModel, Pageable pageable);
 
 }

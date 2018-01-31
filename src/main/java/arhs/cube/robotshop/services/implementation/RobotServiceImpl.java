@@ -6,9 +6,7 @@ import javax.inject.Inject;
 import arhs.cube.robotshop.common.exception.ApplicationException;
 import arhs.cube.robotshop.core.Robot;
 import arhs.cube.robotshop.core.RobotModel;
-import arhs.cube.robotshop.dto.RobotDto;
 import arhs.cube.robotshop.repositories.RobotRepository;
-import arhs.cube.robotshop.services.RobotModelService;
 import arhs.cube.robotshop.services.RobotService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -29,9 +27,6 @@ public class RobotServiceImpl implements RobotService {
 
     @Inject
     private RobotRepository robotRepository;
-
-    @Inject
-    private RobotModelService robotModelService;
 
     @Override
     public Robot create(final Robot robot) {
@@ -132,7 +127,26 @@ public class RobotServiceImpl implements RobotService {
     public Page<Robot> search(final String search, final Pageable pageable) {
         Validate.notNull(search);
         Validate.notNull(pageable);
-        //TODO implement
-        return null;
+
+        final Page<Robot> ret = robotRepository.findAllByNameIgnoreCaseContaining(search, pageable);
+
+        logger.info("Retrieve page [{}/{}] with robots for search [{}]. Total [{}]",
+                pageable.getPageNumber() + 1, ret.getTotalPages(), search, ret.getTotalElements());
+
+        return ret;
+    }
+
+    @Override
+    public Page<Robot> searchWithModel(final String search, final RobotModel model, final Pageable pageable) {
+        Validate.notNull(search);
+        Validate.notNull(model);
+        Validate.notNull(pageable);
+
+        final Page<Robot> ret = robotRepository.findAllByNameIgnoreCaseContainingAndModel(search, model, pageable);
+
+        logger.info("Retrieve page [{}/{}] with robots for search [{}] and model [{}]. Total [{}]",
+                pageable.getPageNumber() + 1, ret.getTotalPages(), search, model, ret.getTotalElements());
+
+        return ret;
     }
 }

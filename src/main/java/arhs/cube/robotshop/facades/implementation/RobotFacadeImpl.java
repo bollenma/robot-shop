@@ -134,9 +134,7 @@ public class RobotFacadeImpl implements RobotFacade {
                     .addContextValue("robot model", modelName);
         }
 
-//        return robotService.searchWithModel(search, pageable).map(RobotDto::fromEntity);
-        //TODO search with model in service
-        return null;
+        return robotService.searchWithModel(search, model, pageable).map(RobotDto::fromEntity);
     }
 
 }

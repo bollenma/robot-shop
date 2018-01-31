@@ -29,4 +29,7 @@ public interface RobotService {
     Page<Robot> retrieveAllByModel(RobotModel model, Pageable pageable);
 
     Page<Robot> search(String search, Pageable pageable);
+
+    Page<Robot> searchWithModel(String search, RobotModel model, Pageable pageable);
+
 }

@@ -3,12 +3,15 @@
   <div class="col-lg-3">
 
     <!-- TODO search bar & refresh content with call to backend -->
-    <mat-input-container>
-      <input matInput
-             [(ngModel)]="search" id="search" name="search"
-             (change)="launchSearch()"
-             placeholder="Search a robot by name">
-    </mat-input-container>
+    <form id="search-form" (ngSubmit)="launchSearch()">
+      <!--<mat-input-container>-->
+      <i class="material-icons" id="search-icon">search</i>
+      <input autocomplete="off"
+               [(ngModel)]="query" id="search" name="search"
+               placeholder="Search a robot by name">
+      <!--</mat-input-container>-->
+      <!--<button mat-raised-button type="submit">Submit</button>-->
+    </form>
 
 
     <!-- The Browse by model menu -->

@@ -12,12 +12,14 @@ import {forEach} from '@angular/router/src/utils/collection';
 })
 export class PageRobotsListComponent implements OnInit {
   
+  readonly ALL_MODELS = 'all';
+  
   robots: Robot[] = [];
   models: RobotModel[];
   modelLabels: Map<string, string> = new Map();
   
-  search: string;
-  activeModel = 'all';
+  query: string;
+  activeModel: string;
   
   currentPage: number;
   maximumPage: number;
@@ -29,6 +31,7 @@ export class PageRobotsListComponent implements OnInit {
   ngOnInit() {
     
     this.browseAll();
+    this.activeModel = this.ALL_MODELS;
     
     this.robotModelService.findAll().subscribe(
       data => {
@@ -46,7 +49,7 @@ export class PageRobotsListComponent implements OnInit {
       data => this.robots = data.content,
       error => console.log(error),
     );
-    this.activeModel = 'all';
+    this.activeModel = this.ALL_MODELS;
   }
   
   browseByModel(modelValue: string) {
@@ -77,6 +80,16 @@ export class PageRobotsListComponent implements OnInit {
   }
   
   launchSearch() {
-    // this.robotService
+    if (this.activeModel === this.ALL_MODELS) {
+      this.robotService.search(this.query).subscribe(
+        data => this.robots = data.content,
+        error => console.log(error),
+      );
+    } else {
+      return this.robotService.searchWithModel(this.query, this.activeModel).subscribe(
+        data => this.robots = data.content,
+        error => console.log(error),
+      );
+    }
   }
 }

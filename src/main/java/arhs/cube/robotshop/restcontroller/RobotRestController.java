@@ -45,7 +45,6 @@ public class RobotRestController {
      * @param request  the HTTP servlet request
      * @return the created robotDto
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/robots",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -172,5 +171,33 @@ public class RobotRestController {
         return ResponseEntity.ok().body(ret);
     }
 
-    // TODO search & search with model
+    /**
+     * GET /robots/search => Search for robots (paginated)
+     *
+     * @param query     Name of the model for the robots to retrieve
+     * @param modelName Search for robots of model 'modelName'
+     * @param pageable  page configuration
+     * @return Page with found robots
+     */
+    @RequestMapping(value = "/robots/search",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<RobotDto>> searchWithModel(@RequestParam("query") final String query,
+                                                          @RequestParam(value = "model", required = false) final String modelName,
+                                                          final Pageable pageable) {
+        Validate.notNull(query);
+
+        final Page<RobotDto> ret;
+
+        if (modelName == null) {
+            logger.trace("REST request to search robots with name containing [{}], paginated", query);
+            ret = robotFacade.search(query, pageable);
+        } else {
+            logger.trace("REST request to search robots with name containing [{}] for model [{}], paginated", query, modelName);
+            ret = robotFacade.searchWithModel(query, modelName, pageable);
+        }
+
+        return ResponseEntity.ok().body(ret);
+    }
+
 }
