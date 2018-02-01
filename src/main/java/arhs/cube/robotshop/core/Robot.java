@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import arhs.cube.robotshop.dto.RobotDto;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -106,5 +108,33 @@ public class Robot {
                 .toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
 
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Robot robot = (Robot) o;
+
+        return new EqualsBuilder()
+                .append(isSoldout(), robot.isSoldout())
+                .append(getId(), robot.getId())
+                .append(getName(), robot.getName())
+                .append(getModel(), robot.getModel())
+                .append(getPrice(), robot.getPrice())
+                .append(getPictureHash(), robot.getPictureHash())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(getId())
+                .append(getName())
+                .append(getModel())
+                .append(getPrice())
+                .append(getPictureHash())
+                .append(isSoldout())
+                .toHashCode();
+    }
 }
