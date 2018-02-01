@@ -29,6 +29,7 @@ public class TestWithRobots extends SpringAwareTest {
     @Inject
     public RobotRepository robotRepository;
 
+    // Constants
     final public String MODEL_NAME_DOMESTIC = "DOMESTIC";
     final public String MODEL_NAME_MEDICAL = "MEDICAL";
 
@@ -38,10 +39,12 @@ public class TestWithRobots extends SpringAwareTest {
     final public String ROBOT_NAME_MEDICAL = "robot_medical";
     final public String ROBOT_NAME_MEDICAL_SOLDOUT = ROBOT_NAME_MEDICAL + SOLDOUT_SUFFIX;
 
+    // Test objects
     public Pageable page = new PageRequest(0, 20);
 
     public RobotModel modelDomestic;
     public RobotModel modelMedical;
+    public Collection<RobotModel> allModels;
 
     public Robot robotDomestic;
     public Robot robotDomesticSoldout;
@@ -58,11 +61,15 @@ public class TestWithRobots extends SpringAwareTest {
     public void init() {
 
         // Create the robot models
+        allModels = new HashSet<>();
+
         modelDomestic = RobotModelBuilder.build(MODEL_NAME_DOMESTIC, "Domestic robot");
         robotModelRepository.save(modelDomestic);
+        allModels.add(modelDomestic);
 
         modelMedical = RobotModelBuilder.build(MODEL_NAME_MEDICAL, "Medical droid");
         robotModelRepository.save(modelMedical);
+        allModels.add(modelMedical);
 
         // Create the robots
 

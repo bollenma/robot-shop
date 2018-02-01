@@ -109,12 +109,12 @@ public class Robot {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        Robot robot = (Robot) o;
+        final Robot robot = (Robot) o;
 
         return new EqualsBuilder()
                 .append(isSoldout(), robot.isSoldout())
