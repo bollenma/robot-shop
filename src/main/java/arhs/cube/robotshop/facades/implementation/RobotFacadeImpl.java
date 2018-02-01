@@ -114,16 +114,16 @@ public class RobotFacadeImpl implements RobotFacade {
     }
 
     @Override
-    public Page<RobotDto> search(final String search, final Pageable pageable) {
-        Validate.notNull(search);
+    public Page<RobotDto> search(final String query, final Pageable pageable) {
+        Validate.notNull(query);
         Validate.notNull(pageable);
 
-        return robotService.search(search, pageable).map(RobotDto::fromEntity);
+        return robotService.search(query, pageable).map(RobotDto::fromEntity);
     }
 
     @Override
-    public Page<RobotDto> searchWithModel(final String search, final String modelName, final Pageable pageable) {
-        Validate.notNull(search);
+    public Page<RobotDto> searchWithModel(final String query, final String modelName, final Pageable pageable) {
+        Validate.notNull(query);
         Validate.notNull(modelName);
         Validate.notNull(pageable);
 
@@ -134,7 +134,7 @@ public class RobotFacadeImpl implements RobotFacade {
                     .addContextValue("robot model", modelName);
         }
 
-        return robotService.searchWithModel(search, model, pageable).map(RobotDto::fromEntity);
+        return robotService.searchWithModel(query, model, pageable).map(RobotDto::fromEntity);
     }
 
 }

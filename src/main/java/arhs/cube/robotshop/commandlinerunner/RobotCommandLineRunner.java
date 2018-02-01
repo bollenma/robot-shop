@@ -27,6 +27,8 @@ public class RobotCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(final String... strings) throws Exception {
+
+        // Create the models
         final Collection<RobotModel> models = new ArrayList<>();
 
         final RobotModel modelDomestic = RobotModelBuilder.build("DOMESTIC", "Domestic robot");
@@ -43,6 +45,8 @@ public class RobotCommandLineRunner implements CommandLineRunner {
         System.out.println("---- Robot Models ----");
         robotModelRepository.findAll().forEach(System.out::println);
 
+
+        // Create the robots
         final Collection<Robot> robots = new ArrayList<>();
 
         robots.add(RobotBuilder.build("K-2SO", modelDomestic, true));

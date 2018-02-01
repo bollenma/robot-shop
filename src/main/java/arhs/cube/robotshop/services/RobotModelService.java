@@ -9,6 +9,11 @@ import arhs.cube.robotshop.core.RobotModel;
  */
 public interface RobotModelService {
 
+    /**
+     * Retrieve all the robot models
+     *
+     * @return All the robot models
+     */
     Collection<RobotModel> retrieveAll();
 
     /**

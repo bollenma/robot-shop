@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import arhs.cube.robotshop.dto.RobotDto;
 import arhs.cube.robotshop.facades.RobotFacade;
-import arhs.cube.robotshop.services.RobotModelService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,15 +30,12 @@ public class RobotRestController {
     @Inject
     private RobotFacade robotFacade;
 
-    @Inject
-    private RobotModelService robotModelService;
-
     /**
      * POST /robots => Create a new Robot
      *
-     * @param robotDto The robot DTO to be created
+     * @param robotDto The robot to be created
      * @param request  the HTTP servlet request
-     * @return the created robotDto
+     * @return the created robot
      */
     @RequestMapping(value = "/robots",
             method = RequestMethod.POST,
@@ -80,7 +76,7 @@ public class RobotRestController {
     /**
      * PUT /robots => update the robot
      *
-     * @param robotDto new values for the robot
+     * @param robotDto robot to be updated
      * @return the updated robot
      */
     @RequestMapping(value = "/robots",
@@ -113,14 +109,14 @@ public class RobotRestController {
     }
 
     /**
-     * POST /robots/delete => delete the robots listed
+     * POST /robots/delete => Delete all the robots for the given ids
      *
      * @param ids ids of the robots to be deleted
      */
     @RequestMapping(value = "/robots/delete",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteBatch(@RequestBody final Collection<Long> ids) {
+    public void deleteMultiple(@RequestBody final Collection<Long> ids) {
         Validate.notNull(ids);
 
         logger.trace("REST request to delete robots [{}]", ids);
@@ -129,7 +125,7 @@ public class RobotRestController {
     }
 
     /**
-     * GET /robots => get all robots (paginated)
+     * GET /robots => get a page of all robots
      *
      * @param pageable page configuration
      * @return Page with robots
@@ -148,7 +144,7 @@ public class RobotRestController {
     }
 
     /**
-     * GET /robots/model/:modelName => get all the robots by model (paginated)
+     * GET /robots/model/:modelName => get a page of all the robots by model
      *
      * @param modelName Name of the model for the robots to retrieve
      * @param pageable  page configuration
@@ -168,10 +164,10 @@ public class RobotRestController {
     }
 
     /**
-     * GET /robots/search => Search for robots (paginated)
+     * GET /robots/search => Search for robots (paginated). Optionally, The search can be executed for a specific model.
      *
-     * @param query     Name of the model for the robots to retrieve
-     * @param modelName Search for robots of model 'modelName'
+     * @param query     Query to search for the robots
+     * @param modelName Name of the model
      * @param pageable  page configuration
      * @return Page with found robots
      */

@@ -124,28 +124,28 @@ public class RobotServiceImpl implements RobotService {
     }
 
     @Override
-    public Page<Robot> search(final String search, final Pageable pageable) {
-        Validate.notNull(search);
+    public Page<Robot> search(final String query, final Pageable pageable) {
+        Validate.notNull(query);
         Validate.notNull(pageable);
 
-        final Page<Robot> ret = robotRepository.findAllByNameIgnoreCaseContaining(search, pageable);
+        final Page<Robot> ret = robotRepository.findAllByNameIgnoreCaseContaining(query, pageable);
 
         logger.info("Retrieve page [{}/{}] with robots for search [{}]. Total [{}]",
-                pageable.getPageNumber() + 1, ret.getTotalPages(), search, ret.getTotalElements());
+                pageable.getPageNumber() + 1, ret.getTotalPages(), query, ret.getTotalElements());
 
         return ret;
     }
 
     @Override
-    public Page<Robot> searchWithModel(final String search, final RobotModel model, final Pageable pageable) {
-        Validate.notNull(search);
+    public Page<Robot> searchWithModel(final String query, final RobotModel model, final Pageable pageable) {
+        Validate.notNull(query);
         Validate.notNull(model);
         Validate.notNull(pageable);
 
-        final Page<Robot> ret = robotRepository.findAllByNameIgnoreCaseContainingAndModel(search, model, pageable);
+        final Page<Robot> ret = robotRepository.findAllByNameIgnoreCaseContainingAndModel(query, model, pageable);
 
         logger.info("Retrieve page [{}/{}] with robots for search [{}] and model [{}]. Total [{}]",
-                pageable.getPageNumber() + 1, ret.getTotalPages(), search, model, ret.getTotalElements());
+                pageable.getPageNumber() + 1, ret.getTotalPages(), query, model, ret.getTotalElements());
 
         return ret;
     }
