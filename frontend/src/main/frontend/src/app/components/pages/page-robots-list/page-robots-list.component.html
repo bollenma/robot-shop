@@ -14,7 +14,7 @@
     <div class="list-group">
       <h4 class="list-group-item w3-theme">Browse by model</h4>
       <a class="list-group-item pointer"
-         (click)="browse(ALL_MODELS)"
+         (click)="browse(ALL_MODELS, undefined)"
          [ngClass]="{'selected': ALL_MODELS == activeModel}">All models</a>
       <a class="list-group-item pointer"
          *ngFor="let model of models"
