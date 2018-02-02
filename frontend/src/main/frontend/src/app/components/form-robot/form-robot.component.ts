@@ -6,8 +6,8 @@ import {Robot} from '../../core/robot.model';
 import {RobotModelService} from '../../services/robot-model/robot-model.service';
 import {RobotService} from '../../services/robot/robot.service';
 import generateId from '../../utils/generateId';
-import {DialogRobotCreatedComponent} from './dialogs/dialog-robot-created/dialog-robot-created.component';
-import {DialogRobotCreationErrorComponent} from './dialogs/dialog-robot-creation-error/dialog-robot-creation-error.component';
+import {DialogRobotCreatedComponent} from '../../dialogs/dialog-robot-created/dialog-robot-created.component';
+import {DialogRobotCreationErrorComponent} from '../../dialogs/dialog-robot-creation-error/dialog-robot-creation-error.component';
 
 @Component({
   selector: 'app-form-robot',
@@ -88,8 +88,7 @@ export class FormRobotComponent implements OnInit {
     const pictureHash = generateId(this.hashCharNumber);
     this.robotForm.patchValue({
       'pictureHash': pictureHash,
-    })
-    ;
+    });
   }
   
   openDialogSuccess(robot: Robot): void {

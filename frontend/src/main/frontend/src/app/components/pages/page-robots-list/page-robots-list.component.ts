@@ -7,7 +7,7 @@ import {Robot} from '../../../core/robot.model';
 import {RobotModelService} from '../../../services/robot-model/robot-model.service';
 import {RobotService} from '../../../services/robot/robot.service';
 import {StringUtils} from '../../../utils/stringUtils';
-import {DialogRobotDeleteComponent} from './dialog-robot-delete/dialog-robot-delete.component';
+import {DialogRobotDeleteComponent} from '../../../dialogs/dialog-robot-delete/dialog-robot-delete.component';
 
 @Component({
   selector: 'app-page-robots-list',

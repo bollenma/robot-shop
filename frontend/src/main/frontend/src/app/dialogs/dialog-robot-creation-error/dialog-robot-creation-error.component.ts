@@ -1,5 +1,4 @@
-import {Component, OnInit, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-dialog-robot-creation-error',
